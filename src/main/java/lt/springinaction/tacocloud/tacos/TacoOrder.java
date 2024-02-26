@@ -15,6 +15,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "Taco_Order")
 public class TacoOrder implements Serializable {
 
     @Serial
@@ -52,6 +53,9 @@ public class TacoOrder implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
+
+    @ManyToOne
+    private UserAccount userAccount;
 
     public void addTaco(Taco taco){
         tacos.add(taco);

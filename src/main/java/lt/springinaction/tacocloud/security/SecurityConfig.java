@@ -1,7 +1,7 @@
 package lt.springinaction.tacocloud.security;
 
 import lt.springinaction.tacocloud.repository.UserRepository;
-import lt.springinaction.tacocloud.tacos.User;
+import lt.springinaction.tacocloud.tacos.UserAccount;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.logging.Logger;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    Logger logger = Logger.getLogger(SecurityConfig.class.getName());
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -30,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepo){
         return username -> {
-            User user = userRepo.findByUsername(username);
+            UserAccount user = userRepo.findByUsername(username);
             if (user!=null) return user;
 
             throw new UsernameNotFoundException("User " + username + " not found");
@@ -39,6 +43,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+        logger.info("FilterChain");
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/register").permitAll()
