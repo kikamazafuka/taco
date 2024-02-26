@@ -41,15 +41,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/register").permitAll()
                         .requestMatchers("/orders", "/design").hasRole("USER")
-                        .requestMatchers("/", "/**").denyAll())
+                        .requestMatchers("/", "/**").permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin().loginPage("/login")
 
-                .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/auth/login?error")
+                .loginProcessingUrl("/register/process_login")
+                .defaultSuccessUrl("/design", true)
+                .usernameParameter("user")
+                .passwordParameter("pwd")
+                .failureUrl("/login?error")
                 .permitAll();
+        httpSecurity.oauth2Login((login) -> login.loginPage("/login"));
+        httpSecurity.logout((logout) -> logout.logoutSuccessUrl("/").permitAll());
         return httpSecurity.build();
     }
 }

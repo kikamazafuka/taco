@@ -30,4 +30,10 @@ public class RegistrationController {
         userRepository.save(form.toUser(passwordEncoder));
         return "redirect:/login";
     }
+
+    @PostMapping("/process_login")
+    public String processLogin(){
+//        userRepository.save(form.toUser(passwordEncoder));
+        return "/design";
+    }
 }

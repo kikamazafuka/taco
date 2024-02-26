@@ -10,25 +10,27 @@ import static
 import static
         org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import lt.springinaction.tacocloud.controller.HomeController;
+import lt.springinaction.tacocloud.controller.OrderController;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-@WebMvcTest(HomeController.class)
+@WebMvcTest(OrderController.class)
 public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     public void testHomePage() throws Exception{
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/order"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"))
+                .andExpect(view().name("orderForm"))
                 .andExpect(content().string(containsString("Start page")));
     }
 }
