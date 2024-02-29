@@ -10,3 +10,6 @@ spring:
             clientId: <google client id>
             clientSecret: <google client secret>
             scope: email, public_profile
+taco:
+  orders:
+    pageSize: 10
